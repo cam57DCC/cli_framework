@@ -12,8 +12,10 @@ class ParamInput
      */
     public function getParams(): array
     {
-        $params = $this->getParamsFromGlobal();
-        $this->parseParams($params);
+        if (count($this->params) == 0) {
+            $params = $this->getParamsFromGlobal();
+            $this->parseParams($params);
+        }
         return $this->params;
     }
 
@@ -83,6 +85,17 @@ class ParamInput
             if ($explode_param[1][0] == '{') {
                 $this->params[$explode_param[0]] = ArgInput::getArgs([$explode_param[1]]);
             } else {
+                if (key_exists($explode_param[0], $this->params)){
+                    if (!is_array($this->params[$explode_param[0]])) {
+                        $this->params[$explode_param[0]] = [
+                            $this->params[$explode_param[0]],
+                            $explode_param[1]
+                        ];
+                        return;
+                    }
+                    $this->params[$explode_param[0]][] = $explode_param[1];
+                    return;
+                }
                 $this->params[$explode_param[0]] = $explode_param[1];
             }
         }
