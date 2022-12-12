@@ -16,7 +16,6 @@ class Cli implements CliInterface
     public function __construct(KernelInterface $kernel)
     {
         $this->kernel = $kernel;
-        $this->kernel->bootstrap();
         $this->addCommands($this->kernel->getCommands());
         $this->addDefaultCommands();
     }
