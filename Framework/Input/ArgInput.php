@@ -27,7 +27,7 @@ class ArgInput
      */
     private static function isArg(string $arg): bool
     {
-        return $arg[0] === '{';
+        return $arg[0] === '{' || $arg[0] !== '[';
     }
 
     /**
